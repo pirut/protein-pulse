@@ -1,146 +1,144 @@
-# Protein Pulse
+# 🥚 Protein Pulse
 
-A simple and intuitive protein tracking web application that helps you monitor your daily protein intake, set goals, and track your progress over time.
+A cross-platform protein tracking app built with React Native and Expo. Track your daily protein intake, save frequently eaten foods, and monitor your progress towards your protein goals.
 
-## Features
+## ✨ Features
 
-- 🔐 **Secure Authentication** - Powered by Clerk for seamless user management
-- 📊 **Daily Tracking** - Log your protein intake with detailed meal information
-- 🎯 **Goal Setting** - Set and track daily protein goals
-- 🍽️ **Preset Meals** - Create and reuse common meals for quick logging
-- 📱 **Responsive Design** - Works perfectly on desktop and mobile devices
-- 📈 **Progress Visualization** - Visual progress bars and daily summaries
+- **Daily Protein Goal Setting**: Set and update your daily protein intake goal
+- **Food Logging**: Log individual food entries with protein amounts and timestamps
+- **Saved Foods**: Save frequently eaten foods for quick logging
+- **Progress Tracking**: Visual progress bar showing daily protein intake vs goal
+- **Search & Filter**: Search through saved foods for quick access
+- **Profile Management**: Manage settings, units, and sync status
+- **Cross-Platform**: Works on iOS, Android, and Web
 
-## Tech Stack
+## 🎨 Design
 
-- **Frontend**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS
-- **Authentication**: Clerk
-- **Database**: PostgreSQL with Prisma ORM
-- **API**: tRPC for type-safe API calls
-- **State Management**: TanStack Query
+- **Color Palette**: Pastel peachy tones (baby blue, soft sand, mint green)
+- **Typography**: Clean sans-serif fonts with large headings
+- **UI Elements**: Rounded corners, soft shadows, intuitive spacing
+- **Theme Support**: Light and dark mode toggle
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js (v16 or higher)
 - npm or yarn
-- A Clerk account for authentication
-- A PostgreSQL database (or use Prisma Data Platform)
+- Expo CLI (`npm install -g @expo/cli`)
 
-### 1. Clone the Repository
+### Installation
 
+1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/pirut/protein-pulse.git
 cd protein-pulse
 ```
 
-### 2. Install Dependencies
-
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-### 3. Environment Setup
-
-Create a `.env` file in the root directory with the following variables:
-
-```env
-# Database
-DATABASE_URL="your-postgresql-connection-string"
-
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your-clerk-publishable-key"
-CLERK_SECRET_KEY="your-clerk-secret-key"
-NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
-NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/"
-```
-
-### 4. Set up Clerk
-
-1. Go to [clerk.com](https://clerk.com) and create an account
-2. Create a new application
-3. Copy your publishable key and secret key to the `.env` file
-4. Configure your sign-in and sign-up URLs
-
-### 5. Database Setup
-
-If you're using Prisma Data Platform (recommended):
-
-1. Go to [cloud.prisma.io](https://cloud.prisma.io)
-2. Create a new project
-3. Copy the connection string to your `.env` file
-
-Or use a local PostgreSQL database:
-
+3. Start the development server:
 ```bash
-# Run the database migration
-npx prisma migrate dev
+npm start
 ```
 
-### 6. Start the Development Server
+4. Run on your preferred platform:
+- **iOS**: `npm run ios` (requires macOS and Xcode)
+- **Android**: `npm run android` (requires Android Studio)
+- **Web**: `npm run web`
 
-```bash
-npm run dev
+## 📱 Screens
+
+### Home Screen
+- Progress display with circular progress bar
+- Search bar for saved foods
+- Quick-add chips for saved foods
+- Today's food log with timestamps
+- FAB for adding new food entries
+
+### Saved Foods Screen
+- List of all saved foods
+- Search and filter functionality
+- Edit and delete saved foods
+- Add new saved foods
+
+### Profile Screen
+- Daily protein goal management
+- Sync status display
+- Units toggle (grams/ounces)
+- Theme toggle (light/dark)
+- Logout functionality
+
+## 🛠 Tech Stack
+
+- **React Native** with Expo
+- **TypeScript** for type safety
+- **React Navigation** for routing
+- **React Native Paper** for UI components
+- **AsyncStorage** for local data persistence
+- **React Native Safe Area Context** for safe area handling
+
+## 📊 Data Structure
+
+### FoodEntry
+```typescript
+interface FoodEntry {
+  id: string;
+  name: string;
+  proteinAmount: number;
+  timeEaten: Date;
+  createdAt: Date;
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
-
-## Usage
-
-### First Time Setup
-
-1. **Sign Up/In**: Use the authentication system to create your account
-2. **Set Daily Goal**: Go to Settings and set your daily protein target
-3. **Add Profile**: Optionally add your weight, height, and activity level for personalized recommendations
-
-### Daily Usage
-
-1. **Log Protein**: Click "Add Protein Entry" to log your protein intake
-2. **Use Preset Meals**: Create common meals for quick logging
-3. **Track Progress**: View your daily progress and remaining protein needs
-4. **View History**: Change the date to view past entries
-
-## Project Structure
-
-```
-src/
-├── app/                 # Next.js app directory
-│   ├── page.tsx        # Main dashboard
-│   ├── settings/       # Settings page
-│   └── layout.tsx      # Root layout with providers
-├── server/             # Backend API
-│   ├── api/           # tRPC API routes
-│   └── db.ts          # Database connection
-├── trpc/              # tRPC client setup
-└── styles/            # Global styles
+### SavedFood
+```typescript
+interface SavedFood {
+  id: string;
+  name: string;
+  defaultProteinAmount: number;
+  createdAt: Date;
+}
 ```
 
-## Database Schema
+### UserProfile
+```typescript
+interface UserProfile {
+  dailyProteinGoal: number;
+  email?: string;
+  isSynced: boolean;
+  units: 'grams' | 'ounces';
+  theme: 'light' | 'dark';
+}
+```
 
-The application uses the following main entities:
+## 🔮 Future Features
 
-- **User**: Authentication and profile information
-- **Profile**: User details (weight, height, activity level)
-- **DailyGoal**: Daily protein targets
-- **ProteinEntry**: Individual protein intake logs
-- **PresetMeal**: Reusable meal templates
+- [ ] Cloud sync with Firebase/Supabase
+- [ ] Reminder notifications
+- [ ] Smart meal suggestions
+- [ ] Social feed and sharing
+- [ ] Barcode scanning for food products
+- [ ] Nutritional information database
+- [ ] Progress charts and analytics
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 🙏 Acknowledgments
 
-If you encounter any issues or have questions, please open an issue on GitHub.
+- React Native community for the excellent framework
+- Expo team for the amazing development tools
+- React Native Paper for the beautiful UI components 
