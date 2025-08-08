@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider as PaperProvider, Icon } from "react-native-paper";
@@ -7,12 +7,32 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import HomeScreen from "./src/screens/HomeScreen";
 import SavedFoodsScreen from "./src/screens/SavedFoodsScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import AuthScreen from "./src/screens/AuthScreen";
 import { ThemeProvider, usePaperTheme } from "./src/theme-context";
+import { supabase } from "./src/services/supabase";
 
 const Tab = createBottomTabNavigator();
 
 function AppShell() {
     const theme = usePaperTheme();
+    const [isAuthed, setIsAuthed] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!supabase) return;
+        supabase.auth.getSession().then(({ data }) => setIsAuthed(!!data.session));
+        const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => setIsAuthed(!!session));
+        return () => {
+            sub.subscription?.unsubscribe();
+        };
+    }, []);
+
+    if (!isAuthed) {
+        return (
+            <PaperProvider theme={theme}>
+                <AuthScreen onAuthenticated={() => setIsAuthed(true)} />
+            </PaperProvider>
+        );
+    }
 
     return (
         <PaperProvider theme={theme}>
